@@ -6,9 +6,10 @@ Complete HARDWARE_TESTING.md before describing this as hardware validated.
 Check installed Zimodem version, baud, RTS/CTS/DTR/DCD polarity, quiet dialing,
 early remote close, final queued bytes, reconnects and repeated binary hashes.
 
-## Full X16 emulator serial card
+## Full X16 emulator serial card — implemented initial subset
 
-Extend a separate fork of X16Community/x16-emulator; do not put emulator-specific
+The initial implementation is in oodler577/x16-emulator, branch serial-network.
+Keep further work in that fork; do not put emulator-specific
 network calls in x16net.bin. Emulate both UART register windows, DLAB, scratch
 registers, FIFOs, baud timing, line/modem status, RTS/CTS and interrupts. Add a
 host TCP bridge exposing the Zimodem command subset to the emulated ESP UART.

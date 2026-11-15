@@ -90,3 +90,98 @@ jobs:
             build/x16net.bin
             build/x16net.labels
             build/*smoke.tap
+
+  network-linux:
+    name: Network / Linux / compiled Prog8
+    needs: prog8
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: oodler577/x16-emulator
+          ref: 7ff49ec69c28cfc04ccdab1a5846d816f53f220e
+          path: .tools/network-emulator
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: x16net-0.1.0
+          path: build
+      - run: sudo apt-get update && sudo apt-get install -y cmake libsdl2-dev zlib1g-dev
+      - name: Build pinned serial-card emulator and fetch test ROM
+        run: |
+          cmake -S .tools/network-emulator -B .tools/network-emulator/build -DENABLE_FLUIDSYNTH=OFF -DENABLE_TRACE=OFF -DENABLE_LTO=OFF
+          cmake --build .tools/network-emulator/build --parallel 4
+          python3 .tools/network-emulator/tests/fetch_test_rom.py
+      - name: Exercise compiled bindings and binary through host TCP
+        env:
+          X16EMU: ${{ github.workspace }}/.tools/network-emulator/build/x16emu
+          X16ROM: ${{ github.workspace }}/build/test-rom.bin
+        run: |
+          set -o pipefail
+          python3 t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
+          python3 t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: network-tests-linux
+          path: |
+            build/network*.tap
+            build/network-emulator.log
+  network-windows:
+    name: Network / Windows / compiled Prog8
+    needs: prog8
+    runs-on: windows-2022
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: oodler577/x16-emulator
+          ref: 7ff49ec69c28cfc04ccdab1a5846d816f53f220e
+          path: .tools/network-emulator
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: x16net-0.1.0
+          path: build
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-SDL2
+            mingw-w64-x86_64-zlib
+            mingw-w64-x86_64-python
+            mingw-w64-x86_64-pkgconf
+      - name: Build native Windows emulator and fetch test ROM
+        run: |
+          cmake -S .tools/network-emulator -B .tools/network-emulator/build -G Ninja -DENABLE_FLUIDSYNTH=OFF -DENABLE_TRACE=OFF -DENABLE_LTO=OFF
+          cmake --build .tools/network-emulator/build --parallel 4
+          python .tools/network-emulator/tests/fetch_test_rom.py
+      - name: Exercise the same compiled Prog8 program on Windows
+        env:
+          X16EMU: ${{ github.workspace }}/.tools/network-emulator/build/x16emu.exe
+          X16ROM: ${{ github.workspace }}/build/test-rom.bin
+        run: |
+          set -o pipefail
+          python t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
+          python t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: network-tests-windows
+          path: |
+            build/network*.tap
+            build/network-emulator.log

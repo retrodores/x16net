@@ -3,12 +3,16 @@
 A small standalone networking library for the Commander X16 Serial & ESP32 Network
 Card, with Prog8 bindings and a documented machine-code interface for other languages.
 
-**Status: experimental 0.1.0. Machine-code/model tests and emulator ABI tests are
-available; the physical card has not yet been tested.**
+**Status: experimental 0.1.0. Includes model, ABI, and full-emulator TCP tests;
+physical-card verification remains pending.**
 
-The implementation is independent 65C02 assembly built with 64tass. It does not
-load ROMTERM, depend on VTUI, render a terminal, or require Prog8 at runtime.
-ROMTERM 1.23 was inspected as a hardware-use reference.
+The implementation is independent 65C02 assembly built with 64tass. The binary
+provides a callable UART/network interface for programs written in any language.
+Credit goes to **David Murray's ROMTERM**, whose UART behavior provided a valuable
+reference, and to **TexElec** for the
+[Commander X16 Serial & ESP32 Network Card](https://texelec.com/product/commander-x16-serial-network-card/)
+and its hardware/programming documentation. ROMTERM is linked from that card page.
+See [source acknowledgments](docs/SOURCES.md) for the full references.
 
 ## What is included
 
@@ -20,10 +24,11 @@ ROMTERM 1.23 was inspected as a hardware-use reference.
 * Bounded command/connect/disconnect waits, binary byte preservation, and errors.
 * Generated Prog8 and assembly bindings; HTTP request and ABI smoke examples.
 * TAP tests executing the shipping machine code, seeded boundary tests, mutation
-  checks, reproducible binary checks, and compiled Prog8 ABI smoke testing.
+  checks, reproducible binary checks, compiled Prog8 ABI smoke testing, and
+  full-emulator TCP integration on Linux and Windows.
 
 No HTTP parser, Gopher menu parser, TLS/HTTPS, UDP, concurrent sockets, IRQ driver,
-Wi-Fi provisioning, or full serial-card emulator is included in this version.
+Wi-Fi provisioning, or full serial-card emulator is bundled in this library.
 TCP/IP and DNS are supplied by the ESP32's installed Zimodem firmware.
 
 ## Build and test

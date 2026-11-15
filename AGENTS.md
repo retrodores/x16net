@@ -16,4 +16,7 @@ Do not modify XVI, VTUI, the system emulator, or unrelated repositories.
 * Keep firmware/model assumptions distinct from hardware evidence.
 * Run make check with PYTHON=.venv/bin/python and t/mutations.py after logic edits.
 * Tests emit TAP; see t/AGENTS.md. Real hardware is unavailable for this first pass.
-* Changes to the full X16 emulator are follow-up work only.
+* t/run_network.py exercises the separate serial-network emulator fork. Keep
+  emulator source changes in that repository, not in this library.
+* Preserve credit to David Murray's ROMTERM and TexElec's card, including the
+  linked card page, in README.md and docs/SOURCES.md.

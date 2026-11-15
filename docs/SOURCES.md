@@ -1,4 +1,11 @@
-# Reference material and provenance
+# Credits and reference material
+
+Thank you to **David Murray** for **ROMTERM**, and to **TexElec** for the
+[Commander X16 Serial & ESP32 Network Card](https://texelec.com/product/commander-x16-serial-network-card/).
+ROMTERM and the card's published programming information were important references
+for x16net's UART initialization and card compatibility. TexElec links David's
+ROMTERM download directly from the card page.
+
 
 x16net is independently implemented from published UART documentation and
 observed reference-program behavior. ROMTERM code and the friend's uploaded

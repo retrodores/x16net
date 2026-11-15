@@ -1,4 +1,7 @@
 ; x16net: standalone 65C02 UART/Zimodem library. MIT license.
+; Hardware reference credits: David Murray's ROMTERM and TexElec's X16 card.
+; https://texelec.com/product/commander-x16-serial-network-card/
+; See docs/SOURCES.md. The implementation is independent; ROMTERM is not bundled.
 ; No zero page, KERNAL calls, IRQ hooks, or display access.
 .cpu "65c02"
 .enc "ascii"

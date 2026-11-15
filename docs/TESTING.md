@@ -40,3 +40,26 @@ machine-code errors such as flags, pointer arithmetic and incorrect ASCII bytes.
 They cannot establish wiring/polarity, ESP32 firmware response timing, real baud
 accuracy, FIFO trigger behavior, or Internet interoperability. See the explicit
 physical-card checklist before describing networking as hardware validated.
+
+## Full-emulator networking
+
+network_test.p8 is compiled with the unchanged pure Prog8 bindings. It loads
+x16net.bin, checks the ABI and UART/modem setup, connects to a local fixture,
+verifies an immediate 256-byte binary reply, exercises byte and block calls,
+checks partial counts across 4096 block bytes, then checks EOF and shutdown.
+The host independently verifies all 4104 transmitted bytes, including NUL, FF,
+CR/LF and +++ sequences. No payload translation or modem-text filtering occurs.
+
+    make network-program
+    X16EMU=/path/to/serial-network/x16emu X16ROM=/path/to/rom.bin make integration PYTHON=.venv/bin/python
+
+The runner takes --fragment and --delay for deterministic reply fragmentation.
+CI tests ordinary replies and delayed 17-byte fragments on Linux and native
+Windows. Both jobs use the same compiled PRG/binary from the Prog8 build job.
+The emulator source is pinned at 7ff49ec69c28cfc04ccdab1a5846d816f53f220e in
+https://github.com/oodler577/x16-emulator/tree/serial-network . Update this pin
+only after validating the new emulator revision. The existing stock-emulator
+ABI test remains separate, so basic binding calls do not depend on the fork.
+
+These tests validate the complete software path to host TCP, but still do not
+validate physical-card firmware or wiring. CI fixtures use loopback only.
