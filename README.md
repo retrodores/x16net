@@ -6,6 +6,16 @@ Card, with Prog8 bindings and a documented machine-code interface for other lang
 **Status: experimental 0.1.3. Includes model, ABI, and full-emulator TCP tests;
 physical-card verification remains pending.**
 
+**Try it in our extended emulator:** the
+[oodler577/x16-emulator fork, `serial-network` branch](https://github.com/oodler577/x16-emulator/tree/serial-network)
+adds serial-card emulation and a host network bridge on Windows and Linux.
+Enable it with `-serialcard`; connectivity uses your computer's network and DNS,
+so real Wi-Fi configuration is unnecessary. The fork's `master` tracks upstream;
+use **`serial-network`** for these extensions.
+[Download emulator builds](https://github.com/oodler577/x16-emulator/releases)
+and see the [setup guide and supported features](https://github.com/oodler577/x16-emulator/blob/serial-network/SERIAL-NETWORK.md).
+The emulator packages include `x16net.bin`, the Gopher PRG, and launchers.
+
 The implementation is independent 65C02 assembly built with 64tass. The binary
 provides a callable UART/network interface for programs written in any language.
 Credit goes to **David Murray's ROMTERM**, whose UART behavior provided a valuable
@@ -59,6 +69,8 @@ Copy it to the X16 disk as `x16net.bin`. Load the headerless file at `$8000`
 Reserve `$8000..$9eff` in the caller; Prog8 examples use `%memtop $8000`.
 Import [prog8/x16net.p8](prog8/x16net.p8) through the compiler source path.
 
+For a physical serial/network card:
+
 1. Configure Wi-Fi beforehand using ROMTERM and `AT+CONFIG`.
 2. Leave the modem in its normal ASCII AT command mode, at a known baud rate.
 3. Initialize UART `$9fe0`, baud index 4 (115200), then call `prepare`.
@@ -90,8 +102,9 @@ checksums should be verified during hardware tests before relying on downloads.
 
 ## Follow-up
 
-[ROADMAP.md](docs/ROADMAP.md) records full X16 serial-card emulation with a host TCP
-bridge, protocol helpers, and work gated on physical-card results.
+The extended emulator linked above provides serial-card emulation and a host
+network bridge. [ROADMAP.md](docs/ROADMAP.md) tracks protocol helpers and further
+work gated on physical-card results.
 
 MIT licensed. This project is not an official TexElec or Commander X16 release.
 
