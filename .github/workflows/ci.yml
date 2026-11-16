@@ -189,6 +189,9 @@ jobs:
 
   release:
     name: Publish tested x16net release
+    concurrency:
+      group: release-provenance
+      cancel-in-progress: false
     if: always() && startsWith(github.ref, 'refs/tags/v')
     needs: [binary, prog8, network-linux, network-windows]
     runs-on: ubuntu-24.04

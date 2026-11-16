@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — experimental
+
+* Write emulator test logs as UTF-8 on Windows; retain exact raw-byte decoding.
+* Release packages are gated by native Windows and Linux integration tests.
+* Library binary and ABI are unchanged.
+
+
 ## 0.1.0 — experimental
 
 * Full-emulator TCP integration through compiled pure Prog8 bindings and the

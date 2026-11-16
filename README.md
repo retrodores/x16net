@@ -3,7 +3,7 @@
 A small standalone networking library for the Commander X16 Serial & ESP32 Network
 Card, with Prog8 bindings and a documented machine-code interface for other languages.
 
-**Status: experimental 0.1.0. Includes model, ABI, and full-emulator TCP tests;
+**Status: experimental 0.1.1. Includes model, ABI, and full-emulator TCP tests;
 physical-card verification remains pending.**
 
 The implementation is independent 65C02 assembly built with 64tass. The binary

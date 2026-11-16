@@ -7,15 +7,19 @@ def gh(path):
     return subprocess.check_output(["gh","api",path],text=True)
 
 repo=os.environ["GH_REPO"]
-tag=os.environ["RELEASE_TAG"]
+tag=os.environ.get("RELEASE_TAG", "v"+Path("VERSION").read_text().strip())
 sha=os.environ["GITHUB_SHA"]
 run=os.environ.get("RECORD_RUN_ID") or os.environ["GITHUB_RUN_ID"]
 if os.environ.get("RECORD_RUN_ID"):
     metadata=json.loads(gh(f"repos/{repo}/actions/runs/{run}"))
     sha=metadata["head_sha"]
+    if metadata.get("head_branch", "").startswith("v"):
+        tag=metadata["head_branch"]
 record={"tag":tag,"source_sha":sha,
         "run_url":f"https://github.com/{repo}/actions/runs/{run}",
         "tests":json.loads(os.environ["TEST_RESULTS"])}
+if os.environ.get("RECORD_RUN_ID"):
+    record["run_conclusion"]=metadata.get("conclusion")
 try:
     release=json.loads(gh(f"repos/{repo}/releases/tags/{tag}"))
     record["release_url"]=release["html_url"]

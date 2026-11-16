@@ -77,7 +77,7 @@ def main():
                 stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=90,
                 env=dict(os.environ,SDL_VIDEODRIVER="dummy",SDL_AUDIODRIVER="dummy"))
         output=result.stdout.replace("\r\n","\n").replace("\r","\n")
-        (ROOT/"build/network-emulator.log").write_text(output)
+        (ROOT/"build/network-emulator.log").write_text(output,encoding="utf-8")
         if "# TAP BEGIN\n" not in output:
             raise RuntimeError("no guest TAP marker: "+output[-3000:])
         tap=output.split("# TAP BEGIN\n",1)[1]
