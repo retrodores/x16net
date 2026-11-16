@@ -58,7 +58,7 @@ try:
             '-echo','raw','-sound','none','-warp','-fsroot',tmp],input='\n'.join(commands)+'\n',
             cwd=tmp,text=True,encoding='latin1',stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120,
             env=dict(os.environ,SDL_VIDEODRIVER='dummy',SDL_AUDIODRIVER='dummy'))
-        output=run.stdout.replace('\r','\n'); (ROOT/'build/gopher-emulator.log').write_text(output)
+        output=run.stdout.replace('\r','\n'); (ROOT/'build/gopher-emulator.log').write_text(output,encoding="utf-8")
         assert '# GOPHER TAP BEGIN' in output,output[-2000:]
         lines=[s for s in output.split('# GOPHER TAP BEGIN',1)[1].splitlines() if s.startswith(('ok ','not ok ','1..','# status'))]
         print('\n'.join(lines),flush=True)

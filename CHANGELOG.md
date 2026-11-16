@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — experimental
+
+* Write Gopher integration logs as UTF-8 on Windows, including ROM control bytes.
+* Gopher PRG, library binary and ABI are unchanged from 0.1.2.
+
 ## 0.1.2 — experimental
 
 * Add the Prog8 Gopher demo: menus, wrapped text, search, eight-location Back
