@@ -2,6 +2,7 @@ name: CI
 on:
   push:
     branches: [master]
+    tags: [v*]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -83,7 +84,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: x16net-0.1.0
+          name: x16net-build
           path: |
             build/*.tar.gz
             build/*.prg
@@ -108,7 +109,7 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
-          name: x16net-0.1.0
+          name: x16net-build
           path: build
       - run: sudo apt-get update && sudo apt-get install -y cmake libsdl2-dev zlib1g-dev
       - name: Build pinned serial-card emulator and fetch test ROM
@@ -151,7 +152,7 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@v4
         with:
-          name: x16net-0.1.0
+          name: x16net-build
           path: build
       - uses: msys2/setup-msys2@v2
         with:
@@ -185,3 +186,55 @@ jobs:
           path: |
             build/network*.tap
             build/network-emulator.log
+
+  release:
+    name: Publish tested x16net release
+    if: always() && startsWith(github.ref, 'refs/tags/v')
+    needs: [binary, prog8, network-linux, network-windows]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require successful tests
+        env:
+          TEST_RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 -c 'import json,os; assert all(j["result"]=="success" for j in json.loads(os.environ["TEST_RESULTS"]).values()), "Release blocked by failed tests"'
+      - uses: actions/download-artifact@v4
+        with:
+          name: x16net-build
+          path: artifact
+      - name: Assemble versioned release assets
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          version=$(cat VERSION)
+          test "$RELEASE_TAG" = "v$version"
+          mkdir release-assets staging
+          tar -xzf "artifact/x16net-$version.tar.gz" -C staging
+          cp "artifact/x16net-$version.tar.gz" release-assets/
+          (cd staging && zip -qr "../release-assets/x16net-$version.zip" "x16net-$version")
+          cp artifact/x16net.bin release-assets/
+          cp prog8/x16net.p8 include/x16net.inc release-assets/
+          (cd release-assets && sha256sum *.bin *.p8 *.inc *.zip *.tar.gz > SHA256SUMS)
+      - name: Publish prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" --verify-tag --prerelease \
+            --title "x16net $RELEASE_TAG — experimental" \
+            --notes-file packaging/RELEASE-NOTES.md release-assets/*
+      - name: Record publication provenance
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          TEST_RESULTS: ${{ toJSON(needs) }}
+        run: python3 tools/record_release.py

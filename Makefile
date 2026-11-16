@@ -2,6 +2,7 @@ ASM ?= 64tass
 PYTHON ?= python3
 PROG8C ?= prog8c
 BUILD := build
+VERSION := $(shell cat VERSION)
 .PHONY: all test check bindings examples network-program integration clean package
 all: $(BUILD)/x16net.bin bindings
 $(BUILD)/x16net.bin: src/x16net.asm
@@ -20,9 +21,9 @@ network-program: all
 integration: network-program
 	$(PYTHON) t/run_network.py
 package: check
-	mkdir -p $(BUILD)/x16net-0.1.0
-	cp $(BUILD)/x16net.bin $(BUILD)/x16net-0.1.0/
-	cp -r prog8 include docs examples README.md LICENSE $(BUILD)/x16net-0.1.0/
-	cd $(BUILD) && tar -czf x16net-0.1.0.tar.gz x16net-0.1.0
+	mkdir -p $(BUILD)/x16net-$(VERSION)
+	cp $(BUILD)/x16net.bin $(BUILD)/x16net-$(VERSION)/
+	cp -r prog8 include docs examples README.md LICENSE $(BUILD)/x16net-$(VERSION)/
+	cd $(BUILD) && tar -czf x16net-$(VERSION).tar.gz x16net-$(VERSION)
 clean:
 	rm -rf $(BUILD)

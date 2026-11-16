@@ -1,14 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 — experimental
 
 * Full-emulator TCP integration through compiled pure Prog8 bindings and the
   standalone binary, with normal and fragmented replies on Linux and Windows.
 * Explicit acknowledgment of David Murray's ROMTERM and TexElec's Commander X16
   Serial & ESP32 Network Card, with a direct link to the card page.
 * Binary ABI and payload code remain unchanged.
-
-## 0.1.0 — experimental
+* Tag-driven releases provide ZIP/tar.gz packages, standalone assets and checksums
+  after all model, binding and native networking checks pass.
 
 * Standalone 65C02 binary at $8000 with twelve versioned jump-table entries.
 * UART setup, byte/block serial I/O, status, bounded modem preparation,

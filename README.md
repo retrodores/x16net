@@ -50,7 +50,8 @@ the examples, and Python/py65 for tests. CI does not contact public test servers
 
 ## Using it
 
-The checked-in binary is in [bin/](bin/); CI rebuilds it and verifies byte equality.
+Download a tested package from [Releases](https://github.com/retrodores/x16net/releases).
+The checked-in binary is also in [bin/](bin/); CI rebuilds it and verifies byte equality.
 Copy it to the X16 disk as `x16net.bin`. Load the headerless file at `$8000`
 (use Prog8 `diskio.load_raw`, or the equivalent loader in your language).
 Reserve `$8000..$9eff` in the caller; Prog8 examples use `%memtop $8000`.
@@ -91,3 +92,9 @@ checksums should be verified during hardware tests before relying on downloads.
 bridge, protocol helpers, and work gated on physical-card results.
 
 MIT licensed. This project is not an official TexElec or Commander X16 release.
+
+## Publishing
+
+VERSION sets the package version. Push a matching v* tag to build and test all
+platforms, then publish the package, individual binary/bindings and checksums.
+The publisher records its CI results and publication provenance in refs/notes/releases.
