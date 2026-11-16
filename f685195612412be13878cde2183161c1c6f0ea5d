@@ -97,5 +97,9 @@
         }
       ]
     }
-  ]
+  ],
+  "diagnostic_files": {
+    "network-normal.tap": "Bail out! network integration: 'charmap' codec can't encode characters in position 19-21: character maps to <undefined>\n",
+    "network-emulator.log": ""
+  }
 }
