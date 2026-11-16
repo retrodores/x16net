@@ -2,29 +2,100 @@
   "tag": "v0.1.0",
   "source_sha": "f685195612412be13878cde2183161c1c6f0ea5d",
   "run_url": "https://github.com/retrodores/x16net/actions/runs/43794911223",
-  "tests": {
-    "binary": {
-      "result": "success",
-      "outputs": {}
-    },
-    "prog8": {
-      "result": "success",
-      "outputs": {}
-    },
-    "network-linux": {
-      "result": "success",
-      "outputs": {}
-    },
-    "network-windows": {
-      "result": "failure",
-      "outputs": {}
-    }
-  },
+  "tests": {},
   "release_url": null,
   "failed_jobs": [
     {
       "name": "Network / Windows / compiled Prog8",
-      "url": "https://github.com/retrodores/x16net/actions/runs/43794911223/job/133061717688"
+      "url": "https://github.com/retrodores/x16net/actions/runs/43794911223/job/133061717688",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run msys2/setup-msys2@v2",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build native Windows emulator and fetch test ROM",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise the same compiled Prog8 program on Windows",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "Publish tested x16net release",
+      "url": "https://github.com/retrodores/x16net/actions/runs/43794911223/job/133062312421",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Require successful tests",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Run actions/download-artifact@v4",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Assemble versioned release assets",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Publish prerelease",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Record publication provenance",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
     }
   ]
 }
