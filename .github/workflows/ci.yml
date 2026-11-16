@@ -125,6 +125,7 @@ jobs:
           set -o pipefail
           python3 t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
           python3 t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
+          python3 t/run_gopher.py | tee build/gopher.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -132,6 +133,8 @@ jobs:
           path: |
             build/network*.tap
             build/network-emulator.log
+            build/gopher.tap
+            build/gopher-emulator.log
   network-windows:
     name: Network / Windows / compiled Prog8
     needs: prog8
@@ -179,6 +182,7 @@ jobs:
           set -o pipefail
           python t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
           python t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
+          python t/run_gopher.py | tee build/gopher.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -186,6 +190,8 @@ jobs:
           path: |
             build/network*.tap
             build/network-emulator.log
+            build/gopher.tap
+            build/gopher-emulator.log
 
   release:
     name: Publish tested x16net release
@@ -222,8 +228,9 @@ jobs:
           cp "artifact/x16net-$version.tar.gz" release-assets/
           (cd staging && zip -qr "../release-assets/x16net-$version.zip" "x16net-$version")
           cp artifact/x16net.bin release-assets/
+          cp artifact/gopher.prg release-assets/x16net-gopher.prg
           cp prog8/x16net.p8 include/x16net.inc release-assets/
-          (cd release-assets && sha256sum *.bin *.p8 *.inc *.zip *.tar.gz > SHA256SUMS)
+          (cd release-assets && sha256sum *.bin *.prg *.p8 *.inc *.zip *.tar.gz > SHA256SUMS)
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

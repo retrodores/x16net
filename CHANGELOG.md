@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 — experimental
+
+* Add the Prog8 Gopher demo: menus, wrapped text, search, eight-location Back
+  history and streamed binary downloads with overwrite protection.
+* Test the shared protocol module through the full emulator on Linux/Windows,
+  including fragmentation, dot-stuffing, malformed menus and size limits.
+* Include x16net-gopher.prg with release packages and as a standalone asset.
+* Library binary, pure bindings and ABI remain unchanged.
+* Preserve credit to David Murray's ROMTERM and TexElec's serial/network card.
+
 ## 0.1.1 — experimental
 
 * Write emulator test logs as UTF-8 on Windows; retain exact raw-byte decoding.

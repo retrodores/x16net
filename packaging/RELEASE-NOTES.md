@@ -1,4 +1,9 @@
-Initial experimental standalone networking library for the Commander X16.
+Experimental Commander X16 networking library, now with a Prog8 Gopher demo.
+
+Download x16net-gopher.prg and x16net.bin together, or use the complete package.
+The Gopher demo supports menus, text, search, Back and binary downloads. See
+docs/GOPHER.md for commands, limits and physical-card setup. The standalone
+library binary and pure Prog8 bindings are unchanged from 0.1.1.
 
 Download the ZIP or tar.gz for the binary, pure Prog8 bindings, assembly
 interface, examples, documentation and MIT license. Individual binary/binding
@@ -14,7 +19,7 @@ is documented in `docs/ABI.md`.
 
 The full software path has model tests, mutation checks, a stock-emulator ABI
 test, and compiled Prog8 TCP integration on Linux and Windows. Physical-card
-verification is still pending. HTTP/Gopher parsers and TLS are not included.
+verification is still pending. The demo includes a Gopher parser; HTTP parsing and TLS are not library APIs.
 
 For emulator networking, use the
 [serial-network emulator preview](https://github.com/oodler577/x16-emulator/releases)

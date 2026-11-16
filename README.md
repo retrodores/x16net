@@ -3,7 +3,7 @@
 A small standalone networking library for the Commander X16 Serial & ESP32 Network
 Card, with Prog8 bindings and a documented machine-code interface for other languages.
 
-**Status: experimental 0.1.1. Includes model, ABI, and full-emulator TCP tests;
+**Status: experimental 0.1.2. Includes model, ABI, and full-emulator TCP tests;
 physical-card verification remains pending.**
 
 The implementation is independent 65C02 assembly built with 64tass. The binary
@@ -23,11 +23,13 @@ See [source acknowledgments](docs/SOURCES.md) for the full references.
 * Zimodem preparation, one raw TCP stream, carrier status and DTR disconnect.
 * Bounded command/connect/disconnect waits, binary byte preservation, and errors.
 * Generated Prog8 and assembly bindings; HTTP request and ABI smoke examples.
+* A [Gopher browser demo](docs/GOPHER.md): menus, text, search, Back history and
+  binary downloads, using the pure Prog8 bindings. Releases include its PRG.
 * TAP tests executing the shipping machine code, seeded boundary tests, mutation
   checks, reproducible binary checks, compiled Prog8 ABI smoke testing, and
   full-emulator TCP integration on Linux and Windows.
 
-No HTTP parser, Gopher menu parser, TLS/HTTPS, UDP, concurrent sockets, IRQ driver,
+The Gopher parser lives in the demo application. No HTTP parser, TLS/HTTPS, UDP, concurrent sockets, IRQ driver,
 Wi-Fi provisioning, or full serial-card emulator is bundled in this library.
 TCP/IP and DNS are supplied by the ESP32's installed Zimodem firmware.
 

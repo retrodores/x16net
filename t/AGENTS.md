@@ -22,3 +22,8 @@ starts a loopback fixture, injects only the port into the compiled PRG, and chec
 both guest TAP and host bytes. X16EMU must point to the serial-network emulator.
 CI compiles once and runs the same PRG on Linux and Windows. All stream waits
 and fixture operations are bounded; normal and fragmented replies must pass.
+
+Gopher demo: examples/gopher_client.p8 is shared between the UI and
+t/gopher_test.p8. Compile the latter with source paths prog8 and examples.
+t/run_gopher.py runs that PRG through the full emulator, verifies its TAP and
+the host-side selectors and downloaded bytes. Test only local fixtures.
