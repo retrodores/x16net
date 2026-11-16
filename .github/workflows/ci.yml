@@ -81,6 +81,7 @@ jobs:
         run: |
           set -o pipefail
           python t/run_x16_smoke.py | tee build/x16-smoke.tap
+          python t/run_gopher_view.py | tee build/gopher-display.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -91,6 +92,7 @@ jobs:
             build/x16net.bin
             build/x16net.labels
             build/*smoke.tap
+            build/gopher-display*
 
   network-linux:
     name: Network / Linux / compiled Prog8
@@ -126,6 +128,7 @@ jobs:
           python3 t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
           python3 t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
           python3 t/run_gopher.py | tee build/gopher.tap
+          python3 t/run_gopher_view.py | tee build/gopher-display.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -135,6 +138,7 @@ jobs:
             build/network-emulator.log
             build/gopher.tap
             build/gopher-emulator.log
+            build/gopher-display*
   network-windows:
     name: Network / Windows / compiled Prog8
     needs: prog8
@@ -183,6 +187,7 @@ jobs:
           python t/run_network.py --fragment 256 --delay 0 | tee build/network-normal.tap
           python t/run_network.py --fragment 17 --delay 0.001 | tee build/network-fragmented.tap
           python t/run_gopher.py | tee build/gopher.tap
+          python t/run_gopher_view.py | tee build/gopher-display.tap
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -192,6 +197,7 @@ jobs:
             build/network-emulator.log
             build/gopher.tap
             build/gopher-emulator.log
+            build/gopher-display*
 
   release:
     name: Publish tested x16net release

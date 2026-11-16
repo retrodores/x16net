@@ -23,6 +23,9 @@ main {
         gopher.use_target()
         check(gopher.download("gopher-test.bin"),"stream exact binary to disk")
         check(not gopher.download("gopher-test.bin") and gopher.status==67,"existing file is not overwritten")
+        void gopher.copy(&gopher.selector,"/wide",256)
+        gopher.kind='0'
+        check(gopher.fetch() and gopher.count==3 and gopher.lines[lsb(1)]==81 and gopher.lines[lsb(2)]==161,"text uses all 80 columns without extra wrapped rows")
         void gopher.copy(&gopher.selector,"/large",256)
         gopher.kind='0'
         check(gopher.fetch() and gopher.truncated and gopher.length<=8192,"oversized page is bounded")
@@ -32,7 +35,7 @@ main {
         gopher.kind='1'
         check(gopher.fetch() and not gopher.target(0) and not gopher.target(1) and not gopher.target(2),"malformed targets rejected")
         gopher.close()
-        txt.print("1..11\n")
+        txt.print("1..12\n")
         %asm {{ jmp $ffff }}
     }
     sub check(bool okay,str label) {

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+* Use all 80 columns and 56 content rows in the X16 Gopher demo.
+* Scroll character and color bytes through VERA and update selection colors
+  without clearing or repainting unchanged content.
+* Keep the page visible during loading, search and filename prompts.
+* Validate host:port input and explain invalid-address errors clearly.
+* Test viewport bounds, both scroll directions, full-width wrapping, prompts
+  and no-op redraw behavior in the emulator.
+
 ## 0.1.3 — experimental
 
 * Write Gopher integration logs as UTF-8 on Windows, including ROM control bytes.

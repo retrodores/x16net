@@ -27,3 +27,8 @@ Gopher demo: examples/gopher_client.p8 is shared between the UI and
 t/gopher_test.p8. Compile the latter with source paths prog8 and examples.
 t/run_gopher.py runs that PRG through the full emulator, verifies its TAP and
 the host-side selectors and downloaded bytes. Test only local fixtures.
+
+The X16-only Gopher renderer is shared with gopher_view_test.p8. Build with
+make gopher-display-program and run t/run_gopher_view.py with X16EMU/X16ROM.
+The checks read real emulated VERA cells and attributes, including the last
+column and overlap-safe scrolling; they must not be replaced by source matching.

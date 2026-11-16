@@ -50,3 +50,11 @@ ROMTERM.PRG supplied by the user identifies v1.23, copyright 2024 David Murray.
 SHA-256: f9e91d84ac5eed5b2d5f137458cf446a0913e2714fcba4f25f40c095f515787f.
 Its UART initialization, polling, register tables and terminal coupling were
 inspected. Private offsets are not an ABI and are not used by x16net.
+
+## Gopher display design
+
+The X16-only Gopher renderer is independently implemented, taking inspiration
+from XVI2 (retrodores/XVI, 2e079cb) and p8vi (retrodores/p8vi, c5478cc):
+selective row updates, direct VERA writes, and overlap-safe scrolling through
+the two VERA data ports. The Gopher renderer moves character and color bytes
+together, keeps prompts outside the viewport, and retains no editor dependency.

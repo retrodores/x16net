@@ -30,6 +30,7 @@ def serve():
                 elif request==b'/text\r\n': data=b'..dot\r\nhello\r\n.\r\n'
                 elif request==b'/search\tneedle\r\n': data=f'9Found\t/binary\t127.0.0.1\t{port}\r\n.\r\n'.encode()
                 elif request==b'/binary\r\n': data=payload
+                elif request==b'/wide\r\n': data=b'a'*80+b'\r\n'+b'b'*81+b'\r\n.\r\n'
                 elif request==b'/large\r\n': data=b'x'*9000+b'\r\n.\r\n'
                 elif request==b'/missing-dot\r\n': data=b'partial text\r\n'
                 elif request==b'/bad-menu\r\n': data=b'1Missing fields\r\n1Bad port\t/\thost\t65536\r\n1Bad host\t/\t\t70\r\n.\r\n'
@@ -62,11 +63,11 @@ try:
         assert '# GOPHER TAP BEGIN' in output,output[-2000:]
         lines=[s for s in output.split('# GOPHER TAP BEGIN',1)[1].splitlines() if s.startswith(('ok ','not ok ','1..','# status'))]
         print('\n'.join(lines),flush=True)
-        assert run.returncode==0 and len([s for s in lines if s.startswith('ok ')])==11 and '1..11' in lines
+        assert run.returncode==0 and len([s for s in lines if s.startswith('ok ')])==12 and '1..12' in lines
         assert not any(s.startswith('not ok ') for s in lines)
         assert (Path(tmp)/'gopher-test.bin').read_bytes()==payload,'download differs from source bytes'
     assert not errors,errors
-    assert seen==[b'\r\n',b'/text\r\n',b'/search\tneedle\r\n',b'/binary\r\n',b'/large\r\n',b'/missing-dot\r\n',b'/bad-menu\r\n'],seen
+    assert seen==[b'\r\n',b'/text\r\n',b'/search\tneedle\r\n',b'/binary\r\n',b'/wide\r\n',b'/large\r\n',b'/missing-dot\r\n',b'/bad-menu\r\n'],seen
     print('# Host verified selectors, search, file bytes and overwrite protection')
 finally:
     stopped.set(); listener.close(); thread.join(3)

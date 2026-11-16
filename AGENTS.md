@@ -5,6 +5,10 @@ This repository is a standalone 65C02 binary with Prog8 bindings, not a terminal
 Do not modify XVI, VTUI, the system emulator, or unrelated repositories.
 
 * src/x16net.asm is the implementation; 64tass builds a headerless blob at $8000.
+* Grow the reusable library when an application needs a shared capability or
+  transport efficiency improvement. Keep source, tests, bindings, distributed
+  binary and release provenance in sync in this repository; avoid app-only
+  binary patches. Display rendering remains an application concern.
 * The first 12 JMP slots and the ABI header are public. Preserve compatible slots.
 * tools/generate_bindings.py owns Prog8 and assembly bindings. Regenerate both
   after ABI edits and compile every example.

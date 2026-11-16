@@ -130,7 +130,7 @@ gopher {
             for i in 0 to length-1 {
                 column++
                 bool next_line=@(page+i)==10
-                if kind=='0' and column==72 and i+1<length and @(page+i+1)!=10 { next_line=true }
+                if kind=='0' and column==80 and i+1<length and @(page+i+1)!=10 { next_line=true }
                 if next_line {
                     column=0
                     if i+1<length {
