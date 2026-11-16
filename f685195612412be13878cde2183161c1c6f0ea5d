@@ -1,0 +1,30 @@
+{
+  "tag": "v0.1.0",
+  "source_sha": "f685195612412be13878cde2183161c1c6f0ea5d",
+  "run_url": "https://github.com/retrodores/x16net/actions/runs/43794911223",
+  "tests": {
+    "binary": {
+      "result": "success",
+      "outputs": {}
+    },
+    "prog8": {
+      "result": "success",
+      "outputs": {}
+    },
+    "network-linux": {
+      "result": "success",
+      "outputs": {}
+    },
+    "network-windows": {
+      "result": "failure",
+      "outputs": {}
+    }
+  },
+  "release_url": null,
+  "failed_jobs": [
+    {
+      "name": "Network / Windows / compiled Prog8",
+      "url": "https://github.com/retrodores/x16net/actions/runs/43794911223/job/133061717688"
+    }
+  ]
+}
