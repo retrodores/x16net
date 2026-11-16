@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Record CI publication provenance in a Git note, readable over repository Git."""
-import json, os, subprocess
+import json, os, subprocess, tempfile
 from pathlib import Path
 
 def gh(path):
@@ -38,6 +38,13 @@ if not record["release_url"]:
                 record["failed_jobs"].append(item)
     except subprocess.CalledProcessError:
         pass
+if record.get("failed_jobs"):
+    with tempfile.TemporaryDirectory(prefix="x16net-ci-artifacts-") as directory:
+        download=subprocess.run(["gh","run","download",run,"--name","network-tests-windows","--dir",directory],text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        if download.returncode:
+            record["diagnostic_artifact_error"]=download.stderr[-4000:]
+        else:
+            record["diagnostic_files"]={str(p.relative_to(directory)):p.read_text(errors="replace")[-18000:] for p in Path(directory).rglob("*") if p.is_file()}
 Path("release-receipt.json").write_text(json.dumps(record,indent=2)+"\n")
 subprocess.run(["git","config","user.name","github-actions[bot]"],check=True)
 subprocess.run(["git","config","user.email","41898282+github-actions[bot]@users.noreply.github.com"],check=True)

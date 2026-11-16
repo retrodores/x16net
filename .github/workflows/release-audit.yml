@@ -1,4 +1,5 @@
 name: Release audit
+# Include completed network test artifacts when diagnosing a failed candidate.
 on:
   push:
     branches: [master]
