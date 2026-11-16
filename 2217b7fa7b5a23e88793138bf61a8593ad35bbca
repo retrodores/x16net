@@ -1,14 +1,30 @@
 {
   "tag": "v0.1.2",
   "source_sha": "2217b7fa7b5a23e88793138bf61a8593ad35bbca",
-  "run_url": "https://github.com/retrodores/x16net/actions/runs/43822205397",
-  "tests": {},
-  "run_conclusion": "failure",
+  "run_url": "https://github.com/retrodores/x16net/actions/runs/43822205291",
+  "tests": {
+    "binary": {
+      "result": "success",
+      "outputs": {}
+    },
+    "prog8": {
+      "result": "success",
+      "outputs": {}
+    },
+    "network-linux": {
+      "result": "success",
+      "outputs": {}
+    },
+    "network-windows": {
+      "result": "failure",
+      "outputs": {}
+    }
+  },
   "release_url": null,
   "failed_jobs": [
     {
       "name": "Network / Windows / compiled Prog8",
-      "url": "https://github.com/retrodores/x16net/actions/runs/43822205397/job/133147988557",
+      "url": "https://github.com/retrodores/x16net/actions/runs/43822205291/job/133147890395",
       "steps": [
         {
           "name": "Set up job",
