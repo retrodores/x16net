@@ -1,0 +1,28 @@
+name: Release audit
+on:
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/release-audit.yml'
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  audit:
+    if: github.event_name == 'push' || (github.event.workflow_run.head_repository.full_name == github.repository && github.event.workflow_run.event != 'pull_request')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Record completed CI and release provenance
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: v0.1.0
+          TEST_RESULTS: '{}'
+          RECORD_RUN_ID: ${{ github.event.workflow_run.id || '43794911223' }}
+        run: python3 tools/record_release.py

@@ -9,7 +9,10 @@ def gh(path):
 repo=os.environ["GH_REPO"]
 tag=os.environ["RELEASE_TAG"]
 sha=os.environ["GITHUB_SHA"]
-run=os.environ["GITHUB_RUN_ID"]
+run=os.environ.get("RECORD_RUN_ID") or os.environ["GITHUB_RUN_ID"]
+if os.environ.get("RECORD_RUN_ID"):
+    metadata=json.loads(gh(f"repos/{repo}/actions/runs/{run}"))
+    sha=metadata["head_sha"]
 record={"tag":tag,"source_sha":sha,
         "run_url":f"https://github.com/{repo}/actions/runs/{run}",
         "tests":json.loads(os.environ["TEST_RESULTS"])}
@@ -28,7 +31,8 @@ if not record["release_url"]:
         record["failed_jobs"]=[]
         for job in jobs:
             if job.get("conclusion")=="failure":
-                item={"name":job["name"],"url":job["html_url"]}
+                item={"name":job["name"],"url":job["html_url"],
+                      "steps":[{"name":s["name"],"conclusion":s.get("conclusion")} for s in job.get("steps",[])]}
                 try: item["log_tail"]=gh(f"repos/{repo}/actions/jobs/{job['id']}/logs")[-18000:]
                 except subprocess.CalledProcessError: pass
                 record["failed_jobs"].append(item)
