@@ -2,24 +2,8 @@
   "tag": "v0.1.1",
   "source_sha": "8dc60fee198f6661151ef95ac83dd3e6a6e9ff64",
   "run_url": "https://github.com/retrodores/x16net/actions/runs/43798276082",
-  "tests": {
-    "binary": {
-      "result": "success",
-      "outputs": {}
-    },
-    "prog8": {
-      "result": "success",
-      "outputs": {}
-    },
-    "network-linux": {
-      "result": "success",
-      "outputs": {}
-    },
-    "network-windows": {
-      "result": "success",
-      "outputs": {}
-    }
-  },
+  "tests": {},
+  "run_conclusion": "success",
   "release_url": "https://github.com/retrodores/x16net/releases/tag/v0.1.1",
   "assets": [
     {
